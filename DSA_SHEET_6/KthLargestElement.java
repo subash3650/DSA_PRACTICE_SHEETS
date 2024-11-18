@@ -18,7 +18,7 @@ class Solution {
     }
 }
 
-public class Main {
+public class KthLargestElement {
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
