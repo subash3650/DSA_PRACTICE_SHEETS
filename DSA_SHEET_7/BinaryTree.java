@@ -51,12 +51,40 @@ class Tree {
             inorder(root.right);
         }
     }
-    public void postOrder(Node root){
-        if(root != null){
-            postOrder(root.right);
-            System.out.println(root.data + " ");
+
+    // Postorder traversal (left, right, root)
+    public void postOrder(Node root) {
+        if (root != null) {
             postOrder(root.left);
+            postOrder(root.right);
+            System.out.print(root.data + " ");
         }
+    }
+
+    // Method to delete a node with a given value
+    public Node delete(Node root, int del) {
+        if (root == null) {
+            return null;
+        }
+        if (root.data > del) {
+            root.left = delete(root.left, del);
+            return root;
+        }
+        if (root.data < del) {
+            root.right = delete(root.right, del);
+            return root;
+        }
+        if (root.left == null) return root.right;
+        if (root.right == null) return root.left;
+
+        // Find the inorder successor (smallest in the right subtree)
+        Node curr = root.right;
+        while (curr.left != null) {
+            curr = curr.left;
+        }
+        curr.left = root.left;
+        root = root.right;
+        return root;
     }
 }
 
@@ -73,9 +101,19 @@ public class BinaryTree {
         }
 
         System.out.println("Preorder traversal:");
-        tree.preOrder(tree.root);  
+        tree.preOrder(tree.root);
 
         System.out.println("\nInorder traversal:");
+        tree.inorder(tree.root);
+
+        System.out.println("\nPostorder traversal:");
+        tree.postOrder(tree.root);
+
+        System.out.print("\nEnter the value to delete: ");
+        int del = sc.nextInt();
+        tree.root = tree.delete(tree.root, del);
+
+        System.out.println("Inorder traversal after deletion:");
         tree.inorder(tree.root);
 
         sc.close();
