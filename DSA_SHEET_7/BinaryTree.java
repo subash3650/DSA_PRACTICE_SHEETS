@@ -42,6 +42,22 @@ class Tree {
             preOrder(root.right);
         }
     }
+
+    // Inorder traversal (left, root, right)
+    public void inorder(Node root) {
+        if (root != null) {
+            inorder(root.left);
+            System.out.print(root.data + " ");
+            inorder(root.right);
+        }
+    }
+    public void postOrder(Node root){
+        if(root != null){
+            postOrder(root.right);
+            System.out.println(root.data + " ");
+            postOrder(root.left);
+        }
+    }
 }
 
 public class BinaryTree {
@@ -58,6 +74,10 @@ public class BinaryTree {
 
         System.out.println("Preorder traversal:");
         tree.preOrder(tree.root);  
+
+        System.out.println("\nInorder traversal:");
+        tree.inorder(tree.root);
+
         sc.close();
     }
 }
