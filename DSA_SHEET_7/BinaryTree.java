@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 class Node {
@@ -77,7 +80,6 @@ class Tree {
         if (root.left == null) return root.right;
         if (root.right == null) return root.left;
 
-        // Find the inorder successor (smallest in the right subtree)
         Node curr = root.right;
         while (curr.left != null) {
             curr = curr.left;
@@ -85,6 +87,39 @@ class Tree {
         curr.left = root.left;
         root = root.right;
         return root;
+    }
+
+    public List<Integer> leftview(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        leftviewer(root, 1, map);
+        for(int i=1; i<map.size(); i++){
+            list.add(map.get(i));
+        }
+        return list;
+    }
+    public void leftviewer(Node root, int level, HashMap<Integer, Integer> map){
+        if(root == null)    return;
+        map.put(level, root.data);
+        leftviewer(root.right, level+1, map);
+        leftviewer(root.left, level+1, map);
+    }
+
+    public List<Integer> rightview(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
+        rightviewer(root, 1, map);
+        for(int i=1; i<map.size(); i++){
+            list.add(map.get(i));
+        }
+        return list;
+    }
+
+    public void rightviewer(Node root, int level, HashMap<Integer, Integer> map){
+        if(root == null)    return;
+        map.put(level, root.data);
+        rightviewer(root.left, level+1, map);
+        rightviewer(root.right, level+1, map);
     }
 }
 
@@ -113,8 +148,17 @@ public class BinaryTree {
         int del = sc.nextInt();
         tree.root = tree.delete(tree.root, del);
 
-        System.out.println("Inorder traversal after deletion:");
-        tree.inorder(tree.root);
+        System.out.println("Left view of the binary tree after deletion:");
+        List<Integer> leftView = tree.leftview(tree.root);
+        for (int val : leftView) {
+            System.out.print(val + " ");
+        }
+
+        System.out.println("Right view of the binary tree after deletion:/n");
+        List<Integer> rightView = tree.rightview(tree.root);
+        for (int val : rightView) {
+            System.out.print(val + " ");
+        }
 
         sc.close();
     }
